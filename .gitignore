@@ -3,3 +3,9 @@ jupyter lab.bat
 models/simple_seq2seq.model
 
 .ipynb_checkpoints/
+
+models/simple_seq2seq_with_context.model
+
+models/params.model
+
+models/simple_seq2seq_with_context.rar
