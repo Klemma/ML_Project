@@ -2,6 +2,6 @@ jupyter lab.bat
 
 .ipynb_checkpoints/
 
-models/simple_seq2seq_with_context.rar
+models/
 
-*.model
+.idea/
