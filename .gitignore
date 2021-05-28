@@ -5,3 +5,11 @@ jupyter lab.bat
 models/
 
 .idea/
+
+application/build/
+
+application/dist/
+
+application/src/__pycache__/
+
+*.spec
