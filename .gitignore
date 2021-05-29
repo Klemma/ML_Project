@@ -13,3 +13,5 @@ application/dist/
 application/src/__pycache__/
 
 *.spec
+
+__pycache__/
