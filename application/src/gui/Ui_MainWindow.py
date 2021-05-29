@@ -58,7 +58,7 @@ class Ui_MainWindow(object):
         self.attributes_layout = QtWidgets.QHBoxLayout()
         self.attributes_layout.setObjectName("attributes_layout")
         self.nsubj_input_line = QtWidgets.QLineEdit(self.centralwidget)
-        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(self.nsubj_input_line.sizePolicy().hasHeightForWidth())
@@ -81,13 +81,13 @@ class Ui_MainWindow(object):
 "}")
         self.nsubj_input_line.setObjectName("nsubj_input_line")
         self.attributes_layout.addWidget(self.nsubj_input_line, 0, QtCore.Qt.AlignTop)
-        self.gender_input_line = QtWidgets.QLineEdit(self.centralwidget)
-        self.gender_input_line.setMinimumSize(QtCore.QSize(0, 35))
+        self.gender_input_comboBox = QtWidgets.QComboBox(self.centralwidget)
+        self.gender_input_comboBox.setMinimumSize(QtCore.QSize(0, 35))
         font = QtGui.QFont()
         font.setFamily("Tahoma")
         font.setPointSize(12)
-        self.gender_input_line.setFont(font)
-        self.gender_input_line.setStyleSheet("QLineEdit {\n"
+        self.gender_input_comboBox.setFont(font)
+        self.gender_input_comboBox.setStyleSheet("QComboBox {\n"
 "    background: white;\n"
 "    border-style: solid;\n"
 "    border-width: 2px;\n"
@@ -95,18 +95,36 @@ class Ui_MainWindow(object):
 "    border-radius: 5px;\n"
 "}\n"
 "\n"
-"QLineEdit:focus {\n"
-"    border-width: 3px;\n"
+"QComboBox::drop-down {\n"
+"    background: rgb(242, 242, 242);\n"
+"    border-width: 2px;\n"
+"    border-color: rgb(115, 115, 115);\n"
+"    border-top-right-radius: 5px;\n"
+"    border-bottom-right-radius: 5px;\n"
+"    border-style: solid;\n"
+"    margin: -2px;\n"
+"}\n"
+"\n"
+"QComboBox::drop-down:pressed {\n"
+"    margin: 0.001px;\n"
+"}\n"
+"\n"
+"QComboBox::down-arrow {\n"
+"    image: url(:/images/down-arrow.png);\n"
 "}")
-        self.gender_input_line.setObjectName("gender_input_line")
-        self.attributes_layout.addWidget(self.gender_input_line, 0, QtCore.Qt.AlignTop)
-        self.tense_input_line = QtWidgets.QLineEdit(self.centralwidget)
-        self.tense_input_line.setMinimumSize(QtCore.QSize(0, 35))
+        self.gender_input_comboBox.setObjectName("gender_input_comboBox")
+        self.gender_input_comboBox.addItem("")
+        self.gender_input_comboBox.addItem("")
+        self.gender_input_comboBox.addItem("")
+        self.gender_input_comboBox.addItem("")
+        self.attributes_layout.addWidget(self.gender_input_comboBox)
+        self.tense_input_comboBox = QtWidgets.QComboBox(self.centralwidget)
+        self.tense_input_comboBox.setMinimumSize(QtCore.QSize(0, 35))
         font = QtGui.QFont()
         font.setFamily("Tahoma")
         font.setPointSize(12)
-        self.tense_input_line.setFont(font)
-        self.tense_input_line.setStyleSheet("QLineEdit {\n"
+        self.tense_input_comboBox.setFont(font)
+        self.tense_input_comboBox.setStyleSheet("QComboBox {\n"
 "    background: white;\n"
 "    border-style: solid;\n"
 "    border-width: 2px;\n"
@@ -114,28 +132,46 @@ class Ui_MainWindow(object):
 "    border-radius: 5px;\n"
 "}\n"
 "\n"
-"QLineEdit:focus {\n"
-"    border-width: 3px;\n"
+"QComboBox::drop-down {\n"
+"    background: rgb(242, 242, 242);\n"
+"    border-width: 2px;\n"
+"    border-color: rgb(115, 115, 115);\n"
+"    border-top-right-radius: 5px;\n"
+"    border-bottom-right-radius: 5px;\n"
+"    border-style: solid;\n"
+"    margin: -2px;\n"
+"}\n"
+"\n"
+"QComboBox::drop-down:pressed {\n"
+"    margin: 0.001px;\n"
+"}\n"
+"\n"
+"QComboBox::down-arrow {\n"
+"    image: url(:/images/down-arrow.png);\n"
 "}")
-        self.tense_input_line.setObjectName("tense_input_line")
-        self.attributes_layout.addWidget(self.tense_input_line, 0, QtCore.Qt.AlignTop)
+        self.tense_input_comboBox.setObjectName("tense_input_comboBox")
+        self.tense_input_comboBox.addItem("")
+        self.tense_input_comboBox.addItem("")
+        self.tense_input_comboBox.addItem("")
+        self.tense_input_comboBox.addItem("")
+        self.attributes_layout.addWidget(self.tense_input_comboBox)
         self.verticalLayout_3.addLayout(self.attributes_layout)
         spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.MinimumExpanding)
         self.verticalLayout_3.addItem(spacerItem1)
-        self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton.setMinimumSize(QtCore.QSize(140, 45))
-        self.pushButton.setMaximumSize(QtCore.QSize(16777215, 16777215))
+        self.generate_button = QtWidgets.QPushButton(self.centralwidget)
+        self.generate_button.setMinimumSize(QtCore.QSize(140, 45))
+        self.generate_button.setMaximumSize(QtCore.QSize(140, 16777215))
         font = QtGui.QFont()
         font.setFamily("Tahoma")
         font.setPointSize(12)
         font.setBold(True)
         font.setWeight(75)
-        self.pushButton.setFont(font)
-        self.pushButton.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
-        self.pushButton.setMouseTracking(False)
-        self.pushButton.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
-        self.pushButton.setAutoFillBackground(False)
-        self.pushButton.setStyleSheet("QPushButton {\n"
+        self.generate_button.setFont(font)
+        self.generate_button.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.generate_button.setMouseTracking(False)
+        self.generate_button.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
+        self.generate_button.setAutoFillBackground(False)
+        self.generate_button.setStyleSheet("QPushButton {\n"
 "    background: white;\n"
 "    border-color: rgb(115, 115, 115);\n"
 "    border-style: solid;\n"
@@ -151,8 +187,8 @@ class Ui_MainWindow(object):
 "    background: rgb(217, 217, 217);\n"
 "    margin: 2px;\n"
 "}")
-        self.pushButton.setObjectName("pushButton")
-        self.verticalLayout_3.addWidget(self.pushButton, 0, QtCore.Qt.AlignHCenter)
+        self.generate_button.setObjectName("generate_button")
+        self.verticalLayout_3.addWidget(self.generate_button, 0, QtCore.Qt.AlignHCenter)
         spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.MinimumExpanding)
         self.verticalLayout_3.addItem(spacerItem2)
         self.label = QtWidgets.QLabel(self.centralwidget)
@@ -192,7 +228,7 @@ class Ui_MainWindow(object):
         self.verticalLayout.addLayout(self.main_layout)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 700, 20))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 700, 21))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
 
@@ -204,7 +240,14 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "Де-лемматизатор предложений"))
         self.lemm_input_line.setPlaceholderText(_translate("MainWindow", "Лемматизированное предложение"))
         self.nsubj_input_line.setPlaceholderText(_translate("MainWindow", "Подлежащее"))
-        self.gender_input_line.setPlaceholderText(_translate("MainWindow", "Род подлежащего"))
-        self.tense_input_line.setPlaceholderText(_translate("MainWindow", "Время"))
-        self.pushButton.setText(_translate("MainWindow", "Сгенерировать"))
+        self.gender_input_comboBox.setItemText(0, _translate("MainWindow", "Мужской род"))
+        self.gender_input_comboBox.setItemText(1, _translate("MainWindow", "Средний род"))
+        self.gender_input_comboBox.setItemText(2, _translate("MainWindow", "Женский род"))
+        self.gender_input_comboBox.setItemText(3, _translate("MainWindow", "Неопределенный"))
+        self.tense_input_comboBox.setItemText(0, _translate("MainWindow", "Прошедшее время"))
+        self.tense_input_comboBox.setItemText(1, _translate("MainWindow", "Настоящее время"))
+        self.tense_input_comboBox.setItemText(2, _translate("MainWindow", "Будущее время"))
+        self.tense_input_comboBox.setItemText(3, _translate("MainWindow", "Неопределенное"))
+        self.generate_button.setText(_translate("MainWindow", "Сгенерировать"))
         self.label.setText(_translate("MainWindow", "Де-лемматизированное предложение"))
+import resources_rc
