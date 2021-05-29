@@ -96,7 +96,7 @@ QLineEdit:focus {
           <item alignment="Qt::AlignTop">
            <widget class="QLineEdit" name="nsubj_input_line">
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -131,8 +131,8 @@ QLineEdit:focus {
             </property>
            </widget>
           </item>
-          <item alignment="Qt::AlignTop">
-           <widget class="QLineEdit" name="gender_input_line">
+          <item>
+           <widget class="QComboBox" name="gender_input_comboBox">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -146,7 +146,7 @@ QLineEdit:focus {
              </font>
             </property>
             <property name="styleSheet">
-             <string notr="true">QLineEdit {
+             <string notr="true">QComboBox {
 	background: white;
 	border-style: solid;
 	border-width: 2px;
@@ -154,17 +154,48 @@ QLineEdit:focus {
 	border-radius: 5px;
 }
 
-QLineEdit:focus {
-	border-width: 3px;
+QComboBox::drop-down {
+	background: rgb(242, 242, 242);
+	border-width: 2px;
+	border-color: rgb(115, 115, 115);
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+	border-style: solid;
+	margin: -2px;
+}
+
+QComboBox::drop-down:pressed {
+	margin: 0.001px;
+}
+
+QComboBox::down-arrow {
+	image: url(:/images/down-arrow.png);
 }</string>
             </property>
-            <property name="placeholderText">
-             <string>Род подлежащего</string>
-            </property>
+            <item>
+             <property name="text">
+              <string>Мужской род</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Средний род</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Женский род</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Неопределенный</string>
+             </property>
+            </item>
            </widget>
           </item>
-          <item alignment="Qt::AlignTop">
-           <widget class="QLineEdit" name="tense_input_line">
+          <item>
+           <widget class="QComboBox" name="tense_input_comboBox">
             <property name="minimumSize">
              <size>
               <width>0</width>
@@ -178,7 +209,7 @@ QLineEdit:focus {
              </font>
             </property>
             <property name="styleSheet">
-             <string notr="true">QLineEdit {
+             <string notr="true">QComboBox {
 	background: white;
 	border-style: solid;
 	border-width: 2px;
@@ -186,13 +217,44 @@ QLineEdit:focus {
 	border-radius: 5px;
 }
 
-QLineEdit:focus {
-	border-width: 3px;
+QComboBox::drop-down {
+	background: rgb(242, 242, 242);
+	border-width: 2px;
+	border-color: rgb(115, 115, 115);
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+	border-style: solid;
+	margin: -2px;
+}
+
+QComboBox::drop-down:pressed {
+	margin: 0.001px;
+}
+
+QComboBox::down-arrow {
+	image: url(:/images/down-arrow.png);
 }</string>
             </property>
-            <property name="placeholderText">
-             <string>Время</string>
-            </property>
+            <item>
+             <property name="text">
+              <string>Прошедшее время</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Настоящее время</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Будущее время</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Неопределенное</string>
+             </property>
+            </item>
            </widget>
           </item>
          </layout>
@@ -214,7 +276,7 @@ QLineEdit:focus {
          </spacer>
         </item>
         <item alignment="Qt::AlignHCenter">
-         <widget class="QPushButton" name="pushButton">
+         <widget class="QPushButton" name="generate_button">
           <property name="minimumSize">
            <size>
             <width>140</width>
@@ -223,7 +285,7 @@ QLineEdit:focus {
           </property>
           <property name="maximumSize">
            <size>
-            <width>16777215</width>
+            <width>140</width>
             <height>16777215</height>
            </size>
           </property>
@@ -373,11 +435,13 @@ QPushButton:pressed {
      <x>0</x>
      <y>0</y>
      <width>700</width>
-     <height>20</height>
+     <height>21</height>
     </rect>
    </property>
   </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="../resources/resources.qrc"/>
+ </resources>
  <connections/>
 </ui>
