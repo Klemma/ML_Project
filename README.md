@@ -1,4 +1,4 @@
-# [Обученные модели](https://drive.google.com/drive/folders/14GvCTtqMJvdqfS19SvmbJ0Cxny0Qe_wZ?usp=sharing)
+# [Данные, обученные модели, презентация](https://drive.google.com/drive/folders/14GvCTtqMJvdqfS19SvmbJ0Cxny0Qe_wZ?usp=sharing)
 
 # Де-лемматизация текста
 **Участники проекта:**<br>
