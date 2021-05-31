@@ -13,3 +13,8 @@
 ## Условные схемы обучения и инференса сети
 ![Обучение](https://github.com/Klemma/ML_Project/blob/main/schemes/ML_project_idea%20(training).png "Обучение")
 ![Инференс](https://github.com/Klemma/ML_Project/blob/main/schemes/ML_project_idea%20(inference).png "Инференс")
+
+## Инструкция по установке
+1. Перейти в каталог [application](application).
+2. Установить [необходимые зависимости](application/requirements.txt).
+3. Запустить python-файл [build_exe.py](application/build_exe.py).
