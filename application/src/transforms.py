@@ -7,7 +7,11 @@ from application.src.vocab.special_tokens import token_to_idx
 
 
 def text_to_indices(text: str, vocab) -> List[int]:
-    tokenized_text = nltk.tokenize.word_tokenize(text.lower(), language='russian')
+    try:
+        tokenized_text = nltk.tokenize.word_tokenize(text.lower(), language='russian')
+    except LookupError:
+        nltk.download('punkt')
+        tokenized_text = nltk.tokenize.word_tokenize(text.lower(), language='russian')
     transformed = [vocab.token_to_idx(token) for token in tokenized_text]
     return transformed
 
