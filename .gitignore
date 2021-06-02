@@ -11,3 +11,13 @@ models/params.model
 models/simple_seq2seq_with_context.rar
 
 models/
+
+.idea/
+
+__pycache__/
+
+application/build/
+
+application/dist/
+
+*.spec
