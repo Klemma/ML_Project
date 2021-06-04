@@ -21,3 +21,9 @@ application/build/
 application/dist/
 
 *.spec
+
+data/cached/
+
+data/lenta/
+
+data/pretrained_embeddings/
