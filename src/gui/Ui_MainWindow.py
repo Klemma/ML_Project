@@ -153,7 +153,6 @@ class Ui_MainWindow(object):
         self.tense_input_comboBox.addItem("")
         self.tense_input_comboBox.addItem("")
         self.tense_input_comboBox.addItem("")
-        self.tense_input_comboBox.addItem("")
         self.attributes_layout.addWidget(self.tense_input_comboBox)
         self.verticalLayout_3.addLayout(self.attributes_layout)
         spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.MinimumExpanding)
@@ -247,7 +246,6 @@ class Ui_MainWindow(object):
         self.tense_input_comboBox.setItemText(0, _translate("MainWindow", "Прошедшее время"))
         self.tense_input_comboBox.setItemText(1, _translate("MainWindow", "Настоящее время"))
         self.tense_input_comboBox.setItemText(2, _translate("MainWindow", "Будущее время"))
-        self.tense_input_comboBox.setItemText(3, _translate("MainWindow", "Неопределенное"))
         self.generate_button.setText(_translate("MainWindow", "Сгенерировать"))
         self.label.setText(_translate("MainWindow", "Де-лемматизированное предложение"))
-import resources_rc
+from src.gui import resources_rc

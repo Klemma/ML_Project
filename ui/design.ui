@@ -250,11 +250,6 @@ QComboBox::down-arrow {
               <string>Будущее время</string>
              </property>
             </item>
-            <item>
-             <property name="text">
-              <string>Неопределенное</string>
-             </property>
-            </item>
            </widget>
           </item>
          </layout>
