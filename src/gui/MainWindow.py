@@ -79,10 +79,3 @@ class MainWindow(QMainWindow, Ui_MainWindow):
 
         self.lemm_input_line.setValidator(lemm_input_validator)
         self.nsubj_input_line.setValidator(nsubj_validator)
-
-
-if __name__ == '__main__':
-    application = QApplication(sys.argv)
-    main_window = MainWindow()
-    main_window.show()
-    sys.exit(application.exec_())
