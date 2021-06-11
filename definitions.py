@@ -1,2 +1,2 @@
-MODEL_PATH = './models/simple_seq2seq.model'
-VOCABS_PATH = './application/src/vocab/vocabs.vcb'
+MODEL_PATH = './models/seq2seq_attention (inference only).model'
+VOCAB_PATH = './src/vocab/vocab.vcb'
