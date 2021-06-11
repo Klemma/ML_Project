@@ -1,48 +1,44 @@
-from typing import List
-
-import application.src.transforms as transforms
-from application.src.vocab.special_tokens import token_to_idx
+from typing import Tuple
 
 import torch
 
+from src.transforms import gender_to_vec, tense_to_vec, text_to_tensor
+from src.vocab.special_tokens import token_to_idx
 
-def generate_sentence(model, sentence: str, context: List[str], lemm_vocab, orig_vocab, device=torch.device('cpu'), max_seq_len=8):
+
+def generate_sentence(model, sentence: str, context: Tuple[str, int, int], vocab, device=torch.device('cpu'),
+                      max_seq_len=40):
     with torch.no_grad():
         model.eval()
 
         nsubj, gender, tense = context
 
-        nsubj = torch.tensor([orig_vocab.token_to_idx(nsubj)], device=device).unsqueeze(0)
-        gender = torch.tensor([transforms.gender_idx_to_vector.get(gender)], dtype=torch.float32, device=device)
-        tense = torch.tensor([transforms.tense_idx_to_vector.get(tense)], dtype=torch.float32, device=device)
+        nsubj = torch.tensor([vocab.token_to_idx(nsubj)], device=device).unsqueeze(0)
+        gender = torch.tensor([gender_to_vec[gender]], dtype=torch.float32, device=device)
+        tense = torch.tensor([tense_to_vec[tense]], dtype=torch.float32, device=device)
 
         nsubj_embedding = model.decoder.embedding(nsubj).squeeze(0)
 
         hidden = model.context_mem(nsubj_embedding, gender, tense)
         cell = hidden.clone()
 
-        if model.num_layers == 1:
-            hidden.unsqueeze_(0)
-            cell.unsqueeze_(0)
-            # hidden, cell shapes: (1, batch_size, context_output_size=hidden_size)
-        else:
-            hidden = torch.cat([hidden.unsqueeze(0)] * model.num_layers, 0)
-            cell = torch.cat([cell.unsqueeze(0)] * model.num_layers, 0)
-            # hidden, cell shapes: (num_layers, batch_size, context_output_size=hidden_size)
+        hidden = torch.cat([hidden.unsqueeze(0)] * 2, 0)
+        cell = torch.cat([cell.unsqueeze(0)] * 2, 0)
+        # hidden, cell shapes: (2, batch_size, context_output_size=hidden_size)
 
-        input_tensor = transforms.text_to_tensor(sentence, lemm_vocab, max_seq_len).to(device)
+        input_tensor = text_to_tensor(sentence, vocab, max_seq_len).to(device)
         input_tensor = torch.transpose(input_tensor, 1, 0)
-        sos_idx = token_to_idx.get('<SOS>')
-        eos_idx = token_to_idx.get('<EOS>')
+        sos_idx = token_to_idx.get('<sos>')
+        eos_idx = token_to_idx.get('<eos>')
 
-        hidden, cell = model.encoder(input_tensor, hidden, cell)
+        encoder_states, hidden, cell = model.encoder(input_tensor, hidden, cell)
 
         predicted_indexes = [sos_idx]
 
         for _ in range(1, max_seq_len):
             prev_idx = torch.tensor([predicted_indexes[-1]], dtype=torch.long, device=device)
 
-            output, hidden, cell = model.decoder(prev_idx, hidden, cell)
+            output, hidden, cell = model.decoder(prev_idx, encoder_states, hidden, cell)
             output = output.squeeze(0)
 
             best_prediction = output.argmax(dim=1).item()
@@ -52,10 +48,5 @@ def generate_sentence(model, sentence: str, context: List[str], lemm_vocab, orig
 
             predicted_indexes.append(best_prediction)
 
-    predicted_tokens = [orig_vocab.idx_to_token(idx) for idx in predicted_indexes]
-
-    generated_text = ''
-    for token in predicted_tokens[1:]:
-        generated_text += token + ' '
-
-    return generated_text[:-1]
+    predicted_tokens = [vocab.idx_to_token(idx) for idx in predicted_indexes]
+    return predicted_tokens[1:]

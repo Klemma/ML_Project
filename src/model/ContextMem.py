@@ -3,13 +3,13 @@ import torch.nn as nn
 
 
 class ContextMem(nn.Module):
-    def __init__(self, input_size, hidden_size, output_size, nsubj_embedding_size, device):
+    def __init__(self, gender_input_size, tense_input_size, hidden_size, output_size, nsubj_embedding_size, device):
         super(ContextMem, self).__init__()
 
         self.device = device
 
-        self.gender_proj = nn.Linear(input_size, hidden_size, bias=False)
-        self.tense_proj = nn.Linear(input_size, hidden_size, bias=False)
+        self.gender_proj = nn.Linear(gender_input_size, hidden_size, bias=False)
+        self.tense_proj = nn.Linear(tense_input_size, hidden_size, bias=False)
         self.fc_out = nn.Linear(hidden_size * 2 + nsubj_embedding_size, output_size, bias=False)
 
     def forward(self, nsubj_embedding, gender, tense):
