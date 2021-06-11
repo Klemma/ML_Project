@@ -1,16 +1,18 @@
-import sys
+from nltk.tokenize.treebank import TreebankWordDetokenizer
+
+from typing import List
 
 from PyQt5 import QtCore, QtGui
-from PyQt5.QtWidgets import QMainWindow, QApplication, QMessageBox
+from PyQt5.QtWidgets import QMainWindow, QMessageBox
 
-from Ui_MainWindow import Ui_MainWindow
-from application.src.model.Seq2SeqModel import Seq2SeqModel
-from application.src.model.generate_text import generate_sentence
-from application.src.model.load_model import load_model
-from application.src.model.params import params
-from application.src.vocab.Vocab import Vocab
-from application.src.vocab.load_vocabs import load_vocabs
-from definitions import MODEL_PATH, VOCABS_PATH
+from src.gui.Ui_MainWindow import Ui_MainWindow
+from src.model.Seq2SeqModel import Seq2SeqModel
+from src.model.generate_text import generate_sentence
+from src.model.load_model import load_model
+from src.model.params import params
+from src.vocab.vocab_loader import load_vocab
+
+from definitions import MODEL_PATH, VOCAB_PATH
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -20,9 +22,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.generate_button.clicked.connect(self.generate_button_clicked)
         self.set_validation()
 
-        self.lemm_vocab = None
-        self.orig_vocab = None
-        self.lemm_vocab, self.orig_vocab = load_vocabs(VOCABS_PATH)
+        self.vocab = load_vocab(VOCAB_PATH)
         self.model = Seq2SeqModel(**params)
         load_model(self.model, MODEL_PATH)
 
@@ -43,8 +43,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         tense_idx = self.tense_input_comboBox.currentIndex()
 
         generated_sentence = generate_sentence(self.model,
-                                               processed_input_sentence, [nsubj, gender_idx, tense_idx],
-                                               self.lemm_vocab, self.orig_vocab)
+                                               processed_input_sentence,
+                                               (nsubj, gender_idx, tense_idx),
+                                               self.vocab)
 
         processed_generated_sentence = self.process_generated_sentence(generated_sentence)
 
@@ -63,13 +64,12 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             sentence += '.'
         return sentence
 
-    def process_generated_sentence(self, sentence: str):
-        sentence = sentence[0].upper() + sentence[1:]
-        ending_punctuation = '.!?'
-        if sentence[-1] in ending_punctuation:
-            # deleting whitespace before ending punctuation (.!?)
-            sentence = sentence[:-2] + '' + sentence[-1]
-        return sentence
+    def process_generated_sentence(self, tokenized_sentence: List[str]):
+        first = [tokenized_sentence[0][0].upper() + tokenized_sentence[0][1:]]
+        tokenized_sentence = first + tokenized_sentence[1:]
+        detokenized_sentence = TreebankWordDetokenizer().detokenize(tokenized_sentence)
+
+        return detokenized_sentence
 
     def set_validation(self):
         lemm_input_regex = QtCore.QRegExp(r'[^A-Za-z\s][^A-Za-z]*')
