@@ -15,6 +15,15 @@ def ui_to_py():
     source = r'./ui/design.ui'
     target = r'-o ./src/gui/Ui_MainWindow.py'
     os.system(rf'{command} {source} {target}')
+
+    with open(target[3:], 'r') as f:
+        lines = f.readlines()
+
+    lines[-1] = r'from src.gui import resources_rc'
+
+    with open(target[3:], 'w') as f:
+        f.writelines(lines)
+
     print('UI успешно собран')
 
 
