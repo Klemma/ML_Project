@@ -21,3 +21,5 @@ data/cached/data_tensors.data
 data/lenta/dataset.csv
 
 data/pretrained_embeddings/navec_news/navec_news_v1_1B_250K_300d_100q.tar
+
+data/cached/
