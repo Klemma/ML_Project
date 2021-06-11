@@ -2,3 +2,4 @@ nltk==3.5
 torch==1.8.1+cu111
 PyInstaller==4.3
 PyQt5==5.15.4
+tqdm==4.49.0
