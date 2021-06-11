@@ -1,10 +1,12 @@
 from typing import List
 
+from tqdm.auto import tqdm
+
 
 class Vocab:
-    def __init__(self, tokens: List[str] = None, unk_idx: int = None):
+    def __init__(self, tokens: List[str], unk_idx: int):
         self._tokens = tokens
-        self._token_to_idx = {token: idx for idx, token in enumerate(tokens)} if tokens is not None else None
+        self._token_to_idx = {token: idx for idx, token in enumerate(tqdm(tokens, 'Transforming tokens'))}
         self._unk_idx = unk_idx
 
     def token_to_idx(self, token: str) -> int:
