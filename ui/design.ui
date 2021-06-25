@@ -93,7 +93,7 @@ QLineEdit:focus {
         </item>
         <item>
          <layout class="QHBoxLayout" name="attributes_layout">
-          <item alignment="Qt::AlignTop">
+          <item>
            <widget class="QLineEdit" name="nsubj_input_line">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -252,6 +252,64 @@ QComboBox::down-arrow {
             </item>
            </widget>
           </item>
+          <item>
+           <widget class="QComboBox" name="number_input_comboBox">
+            <property name="minimumSize">
+             <size>
+              <width>0</width>
+              <height>35</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Tahoma</family>
+              <pointsize>12</pointsize>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QComboBox {
+	background: white;
+	border-style: solid;
+	border-width: 2px;
+	border-color: rgb(115, 115, 115);
+	border-radius: 5px;
+}
+
+QComboBox::drop-down {
+	background: rgb(242, 242, 242);
+	border-width: 2px;
+	border-color: rgb(115, 115, 115);
+	border-top-right-radius: 5px;
+	border-bottom-right-radius: 5px;
+	border-style: solid;
+	margin: -2px;
+}
+
+QComboBox::drop-down:pressed {
+	margin: 0.001px;
+}
+
+QComboBox::down-arrow {
+	image: url(:/images/down-arrow.png);
+}</string>
+            </property>
+            <item>
+             <property name="text">
+              <string>Единственное число</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Множественное число</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Неопределенное</string>
+             </property>
+            </item>
+           </widget>
+          </item>
          </layout>
         </item>
         <item>
@@ -270,7 +328,7 @@ QComboBox::down-arrow {
           </property>
          </spacer>
         </item>
-        <item alignment="Qt::AlignHCenter">
+        <item alignment="Qt::AlignHCenter|Qt::AlignVCenter">
          <widget class="QPushButton" name="generate_button">
           <property name="minimumSize">
            <size>
@@ -343,7 +401,7 @@ QPushButton:pressed {
           </property>
          </spacer>
         </item>
-        <item alignment="Qt::AlignHCenter">
+        <item alignment="Qt::AlignHCenter|Qt::AlignBottom">
          <widget class="QLabel" name="label">
           <property name="sizePolicy">
            <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
