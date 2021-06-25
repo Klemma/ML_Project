@@ -12,6 +12,5 @@ application/dist/
 application/src/__pycache__/
 *.spec
 __pycache__/
-data/cached/
-data/lenta/
-data/pretrained_embeddings/
+
+data/
