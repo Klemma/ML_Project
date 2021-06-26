@@ -87,7 +87,7 @@ QLineEdit:focus {
 }</string>
           </property>
           <property name="placeholderText">
-           <string>Лемматизированное предложение</string>
+           <string>Лемматизированное предложение (частично или полностью)</string>
           </property>
          </widget>
         </item>
