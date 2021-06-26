@@ -1,16 +1,14 @@
-from src.vocab.special_tokens import token_to_idx
+import torch
 
 params = {
-    'vocab_size': 125000,
-    'embedding_size': 300,
-    'hidden_size': 1024,
-    'output_size': 125000,
-    'gender_input_size': 4,
-    'tense_input_size': 3,
-    'context_hidden_size': 512,
-    'context_output_size': 1024,
-    'pad_idx': token_to_idx.get('<PAD>'),
-    'device': 'cpu',
-    'num_layers': 1,
-    'dropout_p': 0.5
+    'embedding_size': 512,
+    'nhead': 8,
+    'num_encoder_layers': 4,
+    'num_decoder_layers': 4,
+    'dim_feedforward': 2048,
+    'dropout': 0.1,
+    'vocab_size': 119559,
+    'max_seq_len': 110,
+    'pad_token_id': 0,
+    'device': torch.device('cpu')
 }
