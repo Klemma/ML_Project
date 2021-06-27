@@ -5,6 +5,7 @@ jupyter lab.bat
 *.model
 *.bin
 *.json
+*.rar
 
 .idea/
 
