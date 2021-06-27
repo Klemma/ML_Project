@@ -1,28 +1,20 @@
 from typing import List
 
-from transformers import BertTokenizerFast
+from definitions import TOKENIZER_PATH
+
+from transformers import MBart50TokenizerFast
 
 
 class TokenizerWrapper:
     def __init__(self):
-        self._tokenizer = BertTokenizerFast.from_pretrained('DeepPavlov/rubert-base-cased')
-        self.special_tokens = {
-            'bos_token': '[BOS]',
-            'eos_token': '[EOS]',
-            'masc': '[MASC_G]',
-            'fem': '[FEM_G]',
-            'neut': '[NEUT_G]',
-            'undefined_g': '[UNDEF_G]',
-            'past': '[PAST_T]',
-            'pres': '[PRES_T]',
-            'fut': '[FUT_T]',
-            'sing': '[SING_N]',
-            'plur': '[PLUR_N]',
-            'undefined_n': '[UNDEF_N]'
-        }
-        self._tokenizer.add_special_tokens({'bos_token': self.special_tokens['bos_token'],
-                                            'eos_token': self.special_tokens['eos_token'],
-                                            'additional_special_tokens': list(self.special_tokens.values())[2:]})
+        self._tokenizer = MBart50TokenizerFast.from_pretrained(TOKENIZER_PATH)
+
+        special_tokens = ['masc', 'fem', 'neut', 'undefined_g',
+                          'past', 'pres', 'fut',
+                          'sing', 'plur', 'undefined_n']
+
+        self.special_tokens = {k: v for k, v in zip(special_tokens, self._tokenizer.additional_special_tokens)}
+
         self.bos_token_id = self._tokenizer.bos_token_id
         self.eos_token_id = self._tokenizer.eos_token_id
 
@@ -38,7 +30,7 @@ class TokenizerWrapper:
                 f'{bos_token} {sentence} {eos_token}'
 
         input = self._tokenizer(input, add_special_tokens=False, return_tensors='pt',
-                                return_attention_mask=False, return_token_type_ids=False).input_ids.permute(1, 0)
+                                return_attention_mask=False, return_token_type_ids=False).input_ids
 
         return input
 
