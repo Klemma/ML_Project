@@ -1,24 +1,11 @@
 import torch
 
-from src.model.params import params
-
 
 def delemmatize_sentence(model, tokenizer, sentence: str, context: tuple) -> str:
-    predictions = [tokenizer.bos_token_id]
-    max_seq_len = params.get('max_seq_len')
-    device = params.get('device')
+    device = torch.device('cpu')
+
     encoded_sentence = tokenizer.encode(sentence, context).to(device)
+    generated_ids = model.generate(encoded_sentence, tokenizer.bos_token_id, tokenizer.eos_token_id)
 
-    for i in range(max_seq_len):
-        target = torch.tensor(predictions, device=device).unsqueeze(1)
-
-        output = model(encoded_sentence, target)
-        best_prediction = output.argmax(2)[-1].item()
-
-        predictions.append(best_prediction)
-
-        if best_prediction == tokenizer.eos_token_id:
-            break
-
-    decoded_output = tokenizer.decode(predictions)
+    decoded_output = tokenizer.decode(generated_ids)
     return decoded_output
