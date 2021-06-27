@@ -27,31 +27,21 @@ def ui_to_py():
     print('UI успешно собран')
 
 
-def build_exe():
-    command = r'pyinstaller'
-    source = r'./src/application.py'
-    flags = r'--onefile'
-    name = r'--name sentence_delemmatizer'
-    os.system(rf'{command} {source} {flags} {name}')
-
-
 def main(argv):
     if len(argv) != 2:
         print('Необходимо указать аргумент\n'
               'Доступные варианты:\n'
               '\tbuild.py qrc\n'
-              '\tbuild.py ui\n'
-              '\tbuild.py exe\n')
+              '\tbuild.py ui\n')
         return
 
     actions = {
         'qrc': qrc_to_py,
-        'ui': ui_to_py,
-        'exe': build_exe
+        'ui': ui_to_py
     }
 
     action = actions.get(argv[1],
-                         lambda: print('Указан неверный аргумент, используйте один из следующих: (qrc, ui, exe)'))
+                         lambda: print('Указан неверный аргумент, используйте один из следующих: (qrc, ui)'))
     action()
 
 
