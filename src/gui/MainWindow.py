@@ -1,6 +1,5 @@
 import re
 
-from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import QMainWindow, QMessageBox
 
 from src.gui.Ui_MainWindow import Ui_MainWindow
@@ -8,10 +7,8 @@ from src.gui.Ui_MainWindow import Ui_MainWindow
 from src.transforms.context_transforms import idx_to_gender, idx_to_tense, idx_to_number
 from src.transforms.delemmatize_sentence import delemmatize_sentence
 
-from src.model.Seq2SeqTransformer import Seq2SeqTransformer
-from src.model.params import params
+from src.model.Seq2SeqMbart import Seq2SeqMbart
 from src.model.Tokenizer import TokenizerWrapper
-from src.model.load_model import load_model
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -19,10 +16,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super(MainWindow, self).__init__()
         self.setupUi(self)
         self.generate_button.clicked.connect(self.generate_button_clicked)
-        self.set_validation()
         self.tokenizer = TokenizerWrapper()
-        self.model = Seq2SeqTransformer(**params)
-        load_model(self.model)
+        self.model = Seq2SeqMbart()
 
     def get_input_sentence(self) -> str:
         return self.lemm_input_line.text()
@@ -60,7 +55,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         end_punctuation = ['.', '!', '?']
         if sentence[-1] not in end_punctuation:
             sentence += '.'
-        sentence = sentence.lower()
+        # sentence = sentence.lower()
         return sentence
 
     def process_generated_sentence(self, sentence:str) -> str:
@@ -68,12 +63,3 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         sentence = re.sub(r'" [\w\s]+ "', lambda m: f'{m.group()[0]}{m.group()[2:-2]}{m.group()[-1]}', sentence)
         sentence = re.sub(r'\w - \w', lambda m: f'{m.group()[0]}{m.group()[2]}{m.group()[-1]}', sentence)
         return sentence
-
-    def set_validation(self):
-        lemm_input_regex = QtCore.QRegExp(r'[^A-Za-z\s][^A-Za-z]*')
-        nsubj_regex = QtCore.QRegExp(r'[^A-Za-z0-9 ]*')
-        lemm_input_validator = QtGui.QRegExpValidator(lemm_input_regex)
-        nsubj_validator = QtGui.QRegExpValidator(nsubj_regex)
-
-        self.lemm_input_line.setValidator(lemm_input_validator)
-        self.nsubj_input_line.setValidator(nsubj_validator)
