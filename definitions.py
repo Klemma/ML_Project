@@ -1,1 +1,2 @@
-MODEL_PATH = './models/seq2seq_transformer_rbt_inference.model'
+MODEL_PATH = './models/seq2seq_finetuned_mbart'
+TOKENIZER_PATH = './models/seq2seq_finetuned_mbart/tokenizer_mbart_large_50'
