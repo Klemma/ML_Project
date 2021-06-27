@@ -80,7 +80,7 @@ class Ui_MainWindow(object):
 "    border-width: 3px;\n"
 "}")
         self.nsubj_input_line.setObjectName("nsubj_input_line")
-        self.attributes_layout.addWidget(self.nsubj_input_line, 0, QtCore.Qt.AlignTop)
+        self.attributes_layout.addWidget(self.nsubj_input_line)
         self.gender_input_comboBox = QtWidgets.QComboBox(self.centralwidget)
         self.gender_input_comboBox.setMinimumSize(QtCore.QSize(0, 35))
         font = QtGui.QFont()
@@ -154,6 +154,42 @@ class Ui_MainWindow(object):
         self.tense_input_comboBox.addItem("")
         self.tense_input_comboBox.addItem("")
         self.attributes_layout.addWidget(self.tense_input_comboBox)
+        self.number_input_comboBox = QtWidgets.QComboBox(self.centralwidget)
+        self.number_input_comboBox.setMinimumSize(QtCore.QSize(0, 35))
+        font = QtGui.QFont()
+        font.setFamily("Tahoma")
+        font.setPointSize(12)
+        self.number_input_comboBox.setFont(font)
+        self.number_input_comboBox.setStyleSheet("QComboBox {\n"
+"    background: white;\n"
+"    border-style: solid;\n"
+"    border-width: 2px;\n"
+"    border-color: rgb(115, 115, 115);\n"
+"    border-radius: 5px;\n"
+"}\n"
+"\n"
+"QComboBox::drop-down {\n"
+"    background: rgb(242, 242, 242);\n"
+"    border-width: 2px;\n"
+"    border-color: rgb(115, 115, 115);\n"
+"    border-top-right-radius: 5px;\n"
+"    border-bottom-right-radius: 5px;\n"
+"    border-style: solid;\n"
+"    margin: -2px;\n"
+"}\n"
+"\n"
+"QComboBox::drop-down:pressed {\n"
+"    margin: 0.001px;\n"
+"}\n"
+"\n"
+"QComboBox::down-arrow {\n"
+"    image: url(:/images/down-arrow.png);\n"
+"}")
+        self.number_input_comboBox.setObjectName("number_input_comboBox")
+        self.number_input_comboBox.addItem("")
+        self.number_input_comboBox.addItem("")
+        self.number_input_comboBox.addItem("")
+        self.attributes_layout.addWidget(self.number_input_comboBox)
         self.verticalLayout_3.addLayout(self.attributes_layout)
         spacerItem1 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.MinimumExpanding)
         self.verticalLayout_3.addItem(spacerItem1)
@@ -187,7 +223,7 @@ class Ui_MainWindow(object):
 "    margin: 2px;\n"
 "}")
         self.generate_button.setObjectName("generate_button")
-        self.verticalLayout_3.addWidget(self.generate_button, 0, QtCore.Qt.AlignHCenter)
+        self.verticalLayout_3.addWidget(self.generate_button, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignVCenter)
         spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.MinimumExpanding)
         self.verticalLayout_3.addItem(spacerItem2)
         self.label = QtWidgets.QLabel(self.centralwidget)
@@ -203,7 +239,7 @@ class Ui_MainWindow(object):
         self.label.setFont(font)
         self.label.setAlignment(QtCore.Qt.AlignBottom|QtCore.Qt.AlignHCenter)
         self.label.setObjectName("label")
-        self.verticalLayout_3.addWidget(self.label, 0, QtCore.Qt.AlignHCenter)
+        self.verticalLayout_3.addWidget(self.label, 0, QtCore.Qt.AlignHCenter|QtCore.Qt.AlignBottom)
         self.delemmatized_output_line = QtWidgets.QLineEdit(self.centralwidget)
         self.delemmatized_output_line.setMinimumSize(QtCore.QSize(0, 35))
         font = QtGui.QFont()
@@ -237,7 +273,7 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Де-лемматизатор предложений"))
-        self.lemm_input_line.setPlaceholderText(_translate("MainWindow", "Лемматизированное предложение"))
+        self.lemm_input_line.setPlaceholderText(_translate("MainWindow", "Лемматизированное предложение (частично или полностью)"))
         self.nsubj_input_line.setPlaceholderText(_translate("MainWindow", "Подлежащее"))
         self.gender_input_comboBox.setItemText(0, _translate("MainWindow", "Мужской род"))
         self.gender_input_comboBox.setItemText(1, _translate("MainWindow", "Средний род"))
@@ -246,6 +282,9 @@ class Ui_MainWindow(object):
         self.tense_input_comboBox.setItemText(0, _translate("MainWindow", "Прошедшее время"))
         self.tense_input_comboBox.setItemText(1, _translate("MainWindow", "Настоящее время"))
         self.tense_input_comboBox.setItemText(2, _translate("MainWindow", "Будущее время"))
+        self.number_input_comboBox.setItemText(0, _translate("MainWindow", "Единственное число"))
+        self.number_input_comboBox.setItemText(1, _translate("MainWindow", "Множественное число"))
+        self.number_input_comboBox.setItemText(2, _translate("MainWindow", "Неопределенное"))
         self.generate_button.setText(_translate("MainWindow", "Сгенерировать"))
         self.label.setText(_translate("MainWindow", "Де-лемматизированное предложение"))
 from src.gui import resources_rc

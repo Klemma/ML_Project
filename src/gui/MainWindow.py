@@ -1,18 +1,14 @@
-from nltk.tokenize.treebank import TreebankWordDetokenizer
+import re
 
-from typing import List
-
-from PyQt5 import QtCore, QtGui
 from PyQt5.QtWidgets import QMainWindow, QMessageBox
 
 from src.gui.Ui_MainWindow import Ui_MainWindow
-from src.model.Seq2SeqModel import Seq2SeqModel
-from src.model.generate_text import generate_sentence
-from src.model.load_model import load_model
-from src.model.params import params
-from src.vocab.vocab_loader import load_vocab
 
-from definitions import MODEL_PATH, VOCAB_PATH
+from src.transforms.context_transforms import idx_to_gender, idx_to_tense, idx_to_number
+from src.transforms.delemmatize_sentence import delemmatize_sentence
+
+from src.model.Seq2SeqMbart import Seq2SeqMbart
+from src.model.Tokenizer import TokenizerWrapper
 
 
 class MainWindow(QMainWindow, Ui_MainWindow):
@@ -20,62 +16,50 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         super(MainWindow, self).__init__()
         self.setupUi(self)
         self.generate_button.clicked.connect(self.generate_button_clicked)
-        self.set_validation()
+        self.tokenizer = TokenizerWrapper()
+        self.model = Seq2SeqMbart()
 
-        self.vocab = load_vocab(VOCAB_PATH)
-        self.model = Seq2SeqModel(**params)
-        load_model(self.model, MODEL_PATH)
+    def get_input_sentence(self) -> str:
+        return self.lemm_input_line.text()
+
+    def get_context(self) -> tuple:
+        nsubj = self.nsubj_input_line.text()
+        gender = idx_to_gender[self.gender_input_comboBox.currentIndex()]
+        tense = idx_to_tense[self.tense_input_comboBox.currentIndex()]
+        number = idx_to_number[self.number_input_comboBox.currentIndex()]
+
+        context = (nsubj, gender, tense, number)
+        return context
+
+    def set_output_sentence(self, sentence: str) -> None:
+        self.delemmatized_output_line.setText(sentence)
 
     def generate_button_clicked(self):
         if self.is_inputs_empty():
-            msg = QMessageBox()
-            msg.setIcon(QMessageBox.Critical)
-            msg.setWindowTitle('Ошибка')
-            msg.setText('Поля ввода не должны быть пустыми!')
-            msg.exec()
+            QMessageBox(QMessageBox.Critical, 'Ошибка', 'Поля вводы не должны быть пустыми').exec_()
             return
 
-        sentence = self.lemm_input_line.text()
-        processed_input_sentence = self.preprocess_input_sentence(sentence)
+        sentence = self.preprocess_input_sentence(self.get_input_sentence())
+        context = self.get_context()
 
-        nsubj = self.nsubj_input_line.text().lower()
-        gender_idx = self.gender_input_comboBox.currentIndex()
-        tense_idx = self.tense_input_comboBox.currentIndex()
+        generated_sentence = delemmatize_sentence(self.model, self.tokenizer, sentence, context)
+        generated_sentence = self.process_generated_sentence(generated_sentence)
 
-        generated_sentence = generate_sentence(self.model,
-                                               processed_input_sentence,
-                                               (nsubj, gender_idx, tense_idx),
-                                               self.vocab)
-
-        processed_generated_sentence = self.process_generated_sentence(generated_sentence)
-
-        self.delemmatized_output_line.setText(processed_generated_sentence)
+        self.set_output_sentence(generated_sentence)
 
     def is_inputs_empty(self) -> bool:
-        inputs = [self.lemm_input_line, self.nsubj_input_line]
-
-        is_empty = any(input.text() == '' for input in inputs)
+        is_empty = self.lemm_input_line.text() == '' or self.nsubj_input_line == ''
         return is_empty
 
-    def preprocess_input_sentence(self, sentence: str):
-        sentence = sentence.lower()
-        ending_punctuation = '.!?'
-        if sentence[-1] not in ending_punctuation:
+    def preprocess_input_sentence(self, sentence: str) -> str:
+        end_punctuation = ['.', '!', '?']
+        if sentence[-1] not in end_punctuation:
             sentence += '.'
+        # sentence = sentence.lower()
         return sentence
 
-    def process_generated_sentence(self, tokenized_sentence: List[str]):
-        first = [tokenized_sentence[0][0].upper() + tokenized_sentence[0][1:]]
-        tokenized_sentence = first + tokenized_sentence[1:]
-        detokenized_sentence = TreebankWordDetokenizer().detokenize(tokenized_sentence)
-
-        return detokenized_sentence
-
-    def set_validation(self):
-        lemm_input_regex = QtCore.QRegExp(r'[^A-Za-z\s][^A-Za-z]*')
-        nsubj_regex = QtCore.QRegExp(r'[^A-Za-z0-9 ]*')
-        lemm_input_validator = QtGui.QRegExpValidator(lemm_input_regex)
-        nsubj_validator = QtGui.QRegExpValidator(nsubj_regex)
-
-        self.lemm_input_line.setValidator(lemm_input_validator)
-        self.nsubj_input_line.setValidator(nsubj_validator)
+    def process_generated_sentence(self, sentence:str) -> str:
+        sentence = re.sub(r'« [\w\s]+ »', lambda m: f'{m.group()[0]}{m.group()[2:-2]}{m.group()[-1]}', sentence)
+        sentence = re.sub(r'" [\w\s]+ "', lambda m: f'{m.group()[0]}{m.group()[2:-2]}{m.group()[-1]}', sentence)
+        sentence = re.sub(r'\w - \w', lambda m: f'{m.group()[0]}{m.group()[2]}{m.group()[-1]}', sentence)
+        return sentence
