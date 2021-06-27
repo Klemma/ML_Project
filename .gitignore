@@ -2,7 +2,9 @@ jupyter lab.bat
 
 .ipynb_checkpoints/
 
-models/
+*.model
+*.bin
+*.json
 
 .idea/
 
