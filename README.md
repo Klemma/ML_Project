@@ -12,10 +12,9 @@
 
 ## Инструкция по установке
 1. Клонировать проект на локальный компьютер.
-2. Создать в корне проекта папку **models**, если ее там нет.
-3. Скачать [архив](https://drive.google.com/file/d/1OZKX-2AWH5Rg60uIYhq82w3rKb4AtJ6o/view?usp=sharing) и разархивировать его в папку **models**.
-4. Установить необходимые зависимости, указанные в [requirements.txt](requirements.txt).
-5. Из-под корня проекта выполнить в консоли команду: _python -m src.application_.
+2. Скачать [архив](https://drive.google.com/file/d/1OZKX-2AWH5Rg60uIYhq82w3rKb4AtJ6o/view?usp=sharing) и разархивировать его по пути: **models/seq2seq_finetuned_mbart**.
+3. Установить необходимые зависимости, указанные в [requirements.txt](requirements.txt).
+4. Из-под корня проекта выполнить в консоли команду: _python -m src.application_.
 
 **Предупреждение:**<br>
 Приложение требует **~5-6 ГБ** оперативной памяти.
