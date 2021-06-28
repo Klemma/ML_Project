@@ -12,7 +12,7 @@
 
 ## Инструкция по запуску
 1. Клонировать проект на локальный компьютер.
-2. Скачать [архив](https://drive.google.com/file/d/1OZKX-2AWH5Rg60uIYhq82w3rKb4AtJ6o/view?usp=sharing) и разархивировать его по пути: **models/seq2seq_finetuned_mbart**.
+2. Скачать [архив](https://drive.google.com/file/d/1ZKM_tuDaGjcEj4wHv3x8hvXQQkbHtEMc/view?usp=sharing) и разархивировать его по пути: **models/seq2seq_finetuned_mbart**.
 3. Установить необходимые зависимости, указанные в [requirements.txt](requirements.txt).
 4. Из-под корня проекта выполнить в консоли команду: _python -m src.application_.
 
